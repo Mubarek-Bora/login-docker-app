@@ -2,6 +2,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const cors = require("cors");
+const bcrypt = require("bcrypt");
 const app = express();
 const PORT = 5000;
 
@@ -30,19 +31,22 @@ app.post("/register", async (req, res) => {
   const existing = await User.findOne({ email });
   if (existing) return res.json({ message: "User already exists" });
 
-  await User.create({ email, password });
+  const hashedPassword = await bcrypt.hash(password, 10);
+  await User.create({ email, password: hashedPassword });
+
   res.json({ message: "User registered" });
 });
+  
 
 // ✅ Login Route
 app.post("/login", async (req, res) => {
   const { email, password } = req.body;
-  console.log("Login attempt:", email, password); // 👈 add this
 
-  const user = await User.findOne({ email, password });
-  console.log("Found user:", user); // 👈 add this
+  const user = await User.findOne({ email });
+  if (!user) return res.json({ message: "Invalid credentials" });
 
-  if (user) {
+  const isMatch = await bcrypt.compare(password, user.password);
+  if (isMatch) {
     res.json({ message: "Login successful" });
   } else {
     res.json({ message: "Invalid credentials" });

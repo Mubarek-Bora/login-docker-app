@@ -1,0 +1,7 @@
+**/node_modules/
+**/npm-debug.log
+**/.env
+**/mongo_data/
+.vscode/
+.DS_Store
+Thumbs.db
