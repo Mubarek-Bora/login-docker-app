@@ -1,5 +1,5 @@
 async function register(e) {
-  e.preventDefault();
+  e.preventDefault(); // stop form from refreshing
 
   const email = document.getElementById("email").value.trim();
   const password = document.getElementById("password").value.trim();
@@ -17,18 +17,19 @@ async function register(e) {
     });
 
     const data = await res.json();
+    console.log("✅ Backend response:", data);
 
     if (data.message === "User registered") {
-      alert("✅ Registration successful! Redirecting to login...");
+      alert("✅ Registration successful!");
       document.querySelector("form").reset();
       setTimeout(() => {
-        window.location.href = "login.html"; // change this if needed
+        window.location.href = "login.html"; // or login.js if that's the actual file
       }, 1000);
     } else {
       alert("⚠️ " + data.message);
     }
   } catch (err) {
-    console.error("Registration failed:", err);
-    alert("❌ Something went wrong. Please try again.");
+    console.error("❌ Fetch error:", err);
+    alert("An error occurred.");
   }
 }
