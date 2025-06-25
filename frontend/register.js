@@ -10,7 +10,7 @@ async function register(e) {
     }
   
     try {
-      const res = await fetch("http://13.221.66.34:5000/register", {
+      const res = await fetch("http://13.221.66.34:5001/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
