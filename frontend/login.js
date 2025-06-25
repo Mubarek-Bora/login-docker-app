@@ -5,7 +5,7 @@ async function login(e) {
   const password = document.getElementById("password").value;
 
   try {
-    const res = await fetch("http://13.221.66.34:5001/login", {
+    const res = await  fetch("/api/register", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email, password }),
